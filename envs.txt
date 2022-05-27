@@ -1,0 +1,25 @@
+pip install torch-scatter -f https://data.pyg.org/whl/torch-1.6.0+cu101.html
+pip install torch-sparse -f https://data.pyg.org/whl/torch-1.6.0+cu101.html
+pip install torch-geometric==1.6.1
+
+conda install -c conda-forge glib
+
+pip install torch-cluster -f https://data.pyg.org/whl/torch-1.10.1+cu102.html
+pip install torch-spline-conv -f https://data.pyg.org/whl/torch-1.10.1+cu102.html
+pip install deeprobust 
+graph-geo  1.8.0 + 10.2
+conda env remove -n graph-geo
+Ensure that at least PyTorch 1.10.0 is installed:
+
+python -c "import torch; print(torch.__version__)"
+>>> 1.11.0
+Find the CUDA version PyTorch was installed with:
+
+python -c "import torch; print(torch.version.cuda)"
+>>> 11.3
+Install the relevant packages:
+
+pip install torch-scatter -f https://data.pyg.org/whl/torch-${TORCH}+${CUDA}.html
+pip install torch-sparse -f https://data.pyg.org/whl/torch-${TORCH}+${CUDA}.html
+pip install torch-geometric
+where ${CUDA} and ${TORCH} should be replaced by the specific CUDA version (cpu, cu102, cu113, cu115) and PyTorch version (1.10.0, 1.11.0), respectively. For example, for PyTorch 1.11.* and CUDA 11.3, type:
