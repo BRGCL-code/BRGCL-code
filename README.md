@@ -8,5 +8,5 @@ torch-geometric==1.6.1
 ```
 
 ## Dataset
-Datasets are listed in `./data`
+Sample datasets are listed in `./data`
 
