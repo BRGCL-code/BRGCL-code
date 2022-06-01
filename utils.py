@@ -65,9 +65,9 @@ def normalize_aug_adj(adj):
 
 def load_graph_np(dataset, k):
     if k:
-        path = 'graph/{}{}_graph.txt'.format(dataset, k) 
+        path = 'data/{}{}_graph.txt'.format(dataset, k) 
     else:
-        path = 'graph/{}_graph.txt'.format(dataset) 
+        path = 'data/{}_graph.txt'.format(dataset) 
 
     data = np.loadtxt('data/{}.txt'.format(dataset))
     n, _ = data.shape
@@ -93,9 +93,9 @@ def load_graph_np(dataset, k):
 
 def load_graph_ori(dataset, k):
     if k:
-        path = 'graph/{}{}_graph.txt'.format(dataset, k) 
+        path = 'data/{}{}_graph.txt'.format(dataset, k) 
     else:
-        path = 'graph/{}_graph.txt'.format(dataset) 
+        path = 'data/{}_graph.txt'.format(dataset) 
 
     data = np.loadtxt('data/{}.txt'.format(dataset))
     n, _ = data.shape
