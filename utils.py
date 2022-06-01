@@ -31,9 +31,9 @@ def visualize_cluster(encoder_out, y_pred):
 
 def load_graph(dataset, k):
     if k:
-        path = 'graph/{}{}_graph.txt'.format(dataset, k) 
+        path = 'data/{}{}_graph.txt'.format(dataset, k) 
     else:
-        path = 'graph/{}_graph.txt'.format(dataset) 
+        path = 'data/{}_graph.txt'.format(dataset) 
 
     data = np.loadtxt('data/{}.txt'.format(dataset))
     n, _ = data.shape
