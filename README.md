@@ -3,7 +3,7 @@
 ## Requirements
 
 ```
-torch==1.4.0
+torch==1.7.0
 torch-geometric==1.6.1
 ```
 
