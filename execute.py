@@ -248,7 +248,7 @@ def train(args):
     _, _, _, idx_train, _, idx_test = process.load_data(args.name)
     _, adj = load_graph(args.name, args.k)
     dataset = load_data(args.name)
-    model = BRGCL(500, 500, n_input=args.n_input, n_z=args.n_z).to(device)
+    model = BRGCL(128, 128, n_input=args.n_input, n_z=args.n_z).to(device)
     optimizer = Adam(model.parameters(), lr=args.lr)
     data = torch.Tensor(dataset.x).to(device)
     y = dataset.y
