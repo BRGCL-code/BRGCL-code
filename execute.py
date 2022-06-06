@@ -305,6 +305,7 @@ if __name__ == "__main__":
     parser.add_argument('--n_clusters', default=3, type=int)
     parser.add_argument('--n_input', default=3703, type=int)
     parser.add_argument('--thres_0', default=0.3, type=float)
+    parser.add_argument('--gamma', default=0.05, type=float)
     parser.add_argument('--pretrain_path', type=str, default='pkl')
     parser.add_argument('--noise_level', type=float, default=0.2)
     parser.add_argument('--noise', type=str, default='uniform', choices=['uniform', 'pair'])
