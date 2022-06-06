@@ -142,7 +142,7 @@ class DP:
         return self.z, self.K
     
 
-def evaluation(adj, data, model, idx_train, idx_test, y):
+def evaluation(adj, data, model, idx_train, idx_test, y, noise_level):
     clf_MLP = MLPClassifier(random_state=1, max_iter=800, hidden_layer_sizes=(250,))
     with torch.no_grad():
         _,_,embeds = model.gcn(data, adj)
@@ -150,9 +150,9 @@ def evaluation(adj, data, model, idx_train, idx_test, y):
         test_embs = embeds[idx_test, :]
         num_classes = 6
         train_label_only = y[idx_train]-1
-        ptb = 0.2
+        ptb = noise_level
         noise_type = 'uniform'
-        noise_y, P = noisify_with_P(train_label_only, num_classes, ptb, 10, noise_type) 
+        noise_y, P = noisify_with_P(train_label_only, num_classes, noise_level, 10, noise_type) 
         train_labels = torch.Tensor(noise_y+1)
         test_labels = torch.Tensor(y[idx_test])
 
@@ -207,7 +207,7 @@ class BRGCL(nn.Module):
     
     def forward(self, x, adj):
 
-        tra1, tra2, z = self.gae(x, adj)
+        tra1, tra2, z = self.gcn(x, adj)
         return tra2, z
 
 def get_proto_norm(feature, centroid, ps_label):
@@ -248,7 +248,7 @@ def train(args):
     _, _, _, idx_train, _, idx_test = process.load_data(args.name)
     _, adj = load_graph(args.name, args.k)
     dataset = load_data(args.name)
-    model = BRGCL(128, 128, n_input=args.n_input, n_z=args.n_z).to(device)
+    model = BRGCL(500, 500, n_input=args.n_input, n_z=args.n_z).to(device)
     optimizer = Adam(model.parameters(), lr=args.lr)
     data = torch.Tensor(dataset.x).to(device)
     y = dataset.y
@@ -299,11 +299,15 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(
         description='train',
         formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument('--name', type=str, default='reut')
-    parser.add_argument('--lr', type=float, default=1e-3)
+    parser.add_argument('--name', type=str, default='citeseer')
+    parser.add_argument('--lr', type=float, default=1e-4)
+    parser.add_argument('--max_epoch', type=int, default=400)
     parser.add_argument('--n_clusters', default=3, type=int)
-    parser.add_argument('--n_z', default=10, type=int)
+    parser.add_argument('--n_input', default=3703, type=int)
+    parser.add_argument('--thres_0', default=0.3, type=float)
     parser.add_argument('--pretrain_path', type=str, default='pkl')
+    parser.add_argument('--noise_level', type=float, default=0.2)
+    parser.add_argument('--noise', type=str, default='uniform', choices=['uniform', 'pair'])
     args = parser.parse_args()
     args.cuda = torch.cuda.is_available()
     print("use cuda: {}".format(args.cuda))
